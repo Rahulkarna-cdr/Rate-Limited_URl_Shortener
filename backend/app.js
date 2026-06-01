@@ -1,4 +1,6 @@
 import express from 'express'
+import swaggerUi from 'swagger-ui-express'
+import swaggerSpecs from './utils/swagger.js'
 import shortenRouter from './routes/shorten.routes.js'
 import analyticsRouter from './routes/analytics.routes.js'
 import { handleRedirect } from './controllers/shorten.controller.js';
@@ -16,6 +18,7 @@ app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use("/api/shorten", shortenRouter);
 app.use("/api/analytics", analyticsRouter);
 app.get('/:shortCode', handleRedirect);
